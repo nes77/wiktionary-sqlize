@@ -30,7 +30,6 @@ create table if not exists synonymous_words
         on delete cascade
 );
 
-
 create table if not exists definitions
 (
     word_id    integer not null,

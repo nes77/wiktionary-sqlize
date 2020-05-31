@@ -4,6 +4,7 @@ use rusqlite::params;
 
 #[derive(Deserialize, Debug)]
 pub struct Record {
+    #[serde(default)]
     pub word: String,
     #[serde(default)]
     pub pos: String,

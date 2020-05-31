@@ -67,7 +67,7 @@ fn main() -> anyhow::Result<()> {
 
     let prog_bar = ProgressBar::new(total as u64);
     prog_bar.set_style(ProgressStyle::default_bar()
-        .template("[ETA: {eta:>8}] {bar:40} {pos:>8}/{len:8} {wide_msg}"));
+        .template("[ETA: {eta:>4}] {bar:40} {pos:>8}/{len:8} at {per_sec} {wide_msg}"));
 
     let res = input_file.lines().try_for_each(
         |r| {
@@ -81,6 +81,11 @@ fn main() -> anyhow::Result<()> {
                     return Err(e.into());
                 },
             };
+
+            if record.word.is_empty() {
+                warn!("Skipping word due to lack of word.");
+                return Ok(())
+            }
 
             prog_bar.set_message(record.word.as_str());
             info!("Found word \"{}\" with POS {}, {} definitions", &record.word, &record.pos, record.num_definitions());
